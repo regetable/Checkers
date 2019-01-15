@@ -9,6 +9,11 @@ package checkersgame;
  *
  * @author caydenferguson
  */
-public class BlackPiece {
-    
+public class BlackPiece extends GamePiece{
+    public BlackPiece(int xCoord, int yCoord){
+        this.colour = "Black";
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+        this.isKing = false;
+    }
 }

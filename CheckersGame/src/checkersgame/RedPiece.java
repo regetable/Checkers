@@ -9,8 +9,8 @@ package checkersgame;
  *
  * @author caydenferguson
  */
-public class BlankPiece extends GamePiece{
-    public BlankPiece(int xCoord, int yCoord){
+public class RedPiece extends GamePiece{
+    public RedPiece(int xCoord, int yCoord){
         this.colour = "Black";
         this.xCoord = xCoord;
         this.yCoord = yCoord;
