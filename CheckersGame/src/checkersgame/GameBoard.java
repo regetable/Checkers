@@ -69,6 +69,8 @@ public class GameBoard extends JFrame {
                 button.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                         buttonPressed(evt);
+                        
+                        
                     }
                 });
                 gamePanel.add(button);
@@ -84,6 +86,8 @@ public class GameBoard extends JFrame {
         playButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 playButtonPressed(evt);
+                
+                
             }
         });
         gamePanel.add(playButton);
@@ -93,7 +97,10 @@ public class GameBoard extends JFrame {
         turnLabel.setFont(new Font("Helvetica", Font.ITALIC, 20));
         turnLabel.setLocation(887, 150);
         turnLabel.setForeground(Color.GRAY);
-        if (game.redTurn) turn = "Red";
+        
+        if (game.redTurn){
+            turn = "Red";
+        }
         else turn = "Black";
         turnLabel.setText(String.format("Your turn, %s!", turn));
         gamePanel.add(turnLabel);
@@ -266,5 +273,6 @@ public class GameBoard extends JFrame {
      */
     public static void main(String[] args) {
         GameBoard thisGame = new GameBoard();
+        
     }
 }
