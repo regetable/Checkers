@@ -23,18 +23,19 @@ public abstract class GamePiece {
     protected ImageIcon sprite;
     
     /**
-     * 
-     * @param peice 
+     * Used to determine if a piece is a king or not
+     * @param peice a piece on the board
+     * @return true if the piece is a king else false
      */
-    public void isKing(GamePiece peice){
-        
+    public boolean isKing(GamePiece peice){
+        return this.isKing;
     }
     /**
-     * 
-     * @param peice
-     * @return 
+     * Used to determine a pieces colour
+     * @param peice a piece on the board
+     * @return a colour in the form of a String
      */
     public String getColour(GamePiece peice){
-        return "";
+        return this.colour;
     }
 }
