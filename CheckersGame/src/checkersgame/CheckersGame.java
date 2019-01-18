@@ -11,15 +11,16 @@ package checkersgame;
  */
 public class CheckersGame {
     
-    public boolean redTurn;
+    public boolean redTurn = true;
     public int blackScore = 0;
     public int redScore = 0;
     public int turnStage = 1;
     public int blackPieceCount = 8;
     public int redPieceCount = 8;
+    
 
     public CheckersGame(){
-
+    
     }
 
     /**
@@ -103,6 +104,7 @@ public class CheckersGame {
      */
     public static void main(String[] args) {
         new GameBoard().setVisible(true);
+        
     }
     
 }

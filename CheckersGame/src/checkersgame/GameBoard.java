@@ -18,7 +18,11 @@ import javax.swing.JLabel;
  */
 
 public class GameBoard extends JFrame {
-
+    public int clickedX;
+    public int clickedY;
+        
+    public boolean gameStarted = false;
+    
     // The 2D array of buttons
     JButton[][] guiBoard = new JButton[8][8];
     
@@ -59,6 +63,7 @@ public class GameBoard extends JFrame {
                 } else {
                     image = new ImageIcon("src/lightCell.png");
                 }
+                button.setEnabled(false);
                 // Adds button to the 2D array of buttons
                 guiBoard[i][j] = button;
                 button.setIcon(image);
@@ -85,9 +90,7 @@ public class GameBoard extends JFrame {
         // Connects the action listener
         playButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playButtonPressed(evt);
-                
-                
+                playButtonPressed(evt);  
             }
         });
         gamePanel.add(playButton);
@@ -159,7 +162,41 @@ public class GameBoard extends JFrame {
      */
     private void buttonPressed(java.awt.event.ActionEvent evt) {
         JButton button = (JButton)evt.getSource();
-        System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
+        int[] coord = getCoordinates(button);
+            int x = coord[0];
+            int y = coord[1];
+        boolean redTurn = game.redTurn;
+            
+        if (game.turnStage == 1){
+            //Need to make it so player cannot choose to move pieces not of his/her colour
+            //This chooses the piece the player wants to move
+            System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
+            clickedX = x;
+            clickedY = y;
+            System.out.println(x + " " + y);
+            
+            //End
+            game.redTurn = false;
+            game.turnStage = 2;
+        }
+        else if(game.turnStage == 2 && clickedX == x && clickedY == y){
+            //This will allow you to change the piece you want to move after clicking into it
+        }
+        else if(game.turnStage == 2){
+            //This will allow placement
+            
+            //Changes to next players turn
+            if(redTurn = true){
+                game.redTurn = false;
+            }
+            else{
+                game.redTurn = true;
+            }
+            //Changes to first turn stage
+            game.turnStage = 1;
+        }
+        
+        
     }
     
     /**
@@ -168,6 +205,13 @@ public class GameBoard extends JFrame {
      */
     private void playButtonPressed(java.awt.event.ActionEvent evt) {
         System.out.println("Play has been pressed.");
+        gameStarted = true;
+        playButton.setEnabled(false);
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                guiBoard[i][j].setEnabled(true);
+            }
+        }
     }
     
     /**
@@ -272,7 +316,7 @@ public class GameBoard extends JFrame {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        GameBoard thisGame = new GameBoard();
+        //GameBoard thisGame = new GameBoard();
         
     }
 }
