@@ -169,6 +169,9 @@ public class GameBoard extends JFrame {
             
         if (game.turnStage == 1){
             //Need to make it so player cannot choose to move pieces not of his/her colour
+            //Need to restrict movement to only forward
+            //Need to unlock movement for kings
+            
             //This chooses the piece the player wants to move
             System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
             clickedX = x;
