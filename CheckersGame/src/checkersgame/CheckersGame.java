@@ -17,10 +17,17 @@ public class CheckersGame {
     public int turnStage = 1;
     public int blackPieceCount = 8;
     public int redPieceCount = 8;
+    public int xChoice;
+    public int yChoice;
     
 
     public CheckersGame(){
-    
+//    this.redTurn = true;
+//    this.blackScore = 0;
+//    this.redScore = 0;
+//    this.blackPieceCount = 0;
+//    this.redPieceCount = 0;
+//    this.turnStage = 1;
     }
 
     /**
@@ -35,17 +42,20 @@ public class CheckersGame {
      *Resets the game - dont think this is needed anymore...
      */
     public void reset(){
-        
+        turnStage = 1;
+        blackPieceCount = 8;
+        redPieceCount = 8;
+        redTurn = true;
     }
 
     /**
      * Changes to the next players turn
      */
     public void nextTurn(){
-        if (redTurn = true){
-            redTurn = false;
+        if (redTurn == true){
+            redTurn =false;
         }
-        else{
+        else if(redTurn == false){
             redTurn = true;
         }
     }
@@ -99,6 +109,11 @@ public class CheckersGame {
             //This should never display
         }
     }
+    
+    public boolean validTurn(int x, int y){
+        if 
+        return true;
+}
     /**
      * @param args the command line arguments
      */

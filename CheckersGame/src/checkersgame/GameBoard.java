@@ -17,11 +17,18 @@ import javax.swing.JLabel;
  * @author TeamLime
  */
 
-public class GameBoard extends JFrame {
+public class GameBoard extends JFrame{
     public int clickedX;
     public int clickedY;
         
     public boolean gameStarted = false;
+    
+    ImageIcon redPiece = new ImageIcon("src/redPiece.png");
+    ImageIcon blackPiece = new ImageIcon("src/blackPiece.png");
+    ImageIcon darkCell = new ImageIcon("src/darkCell.png");
+    ImageIcon lightCell = new ImageIcon("src/lightCell.png");
+    ImageIcon redKing = new ImageIcon("src/redKing.png");
+    ImageIcon blackKing = new ImageIcon("src/blackKing.png");
     
     // The 2D array of buttons
     JButton[][] guiBoard = new JButton[8][8];
@@ -33,7 +40,7 @@ public class GameBoard extends JFrame {
     CheckersGame game = new CheckersGame();
     
     // Whose turn it is: "Black" (first player) or "Red" (second player)
-    String turn; 
+   // String turn; 
     
     // The buttons on the board
     JButton playButton = new JButton(); 
@@ -101,11 +108,13 @@ public class GameBoard extends JFrame {
         turnLabel.setLocation(887, 150);
         turnLabel.setForeground(Color.GRAY);
         
-        if (game.redTurn){
-            turn = "Red";
-        }
-        else turn = "Black";
-        turnLabel.setText(String.format("Your turn, %s!", turn));
+//        if (game.redTurn = true){
+//            turn = "Red";
+//        }
+//        else {
+//            turn = "Black";
+//        }
+        turnLabel.setText("Your turn, red!");
         gamePanel.add(turnLabel);
         
         // Displays the word "Score"
@@ -148,7 +157,7 @@ public class GameBoard extends JFrame {
         this.add(gamePanel);
         this.setSize(1200, 758); // modifiable
         this.setResizable(false);
-        this.setTitle("Checkers"); // modifiable
+        this.setTitle("Retro Checkers"); // modifiable
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -161,44 +170,111 @@ public class GameBoard extends JFrame {
      * @param evt 
      */
     private void buttonPressed(java.awt.event.ActionEvent evt) {
+        //Need to make it so player cannot choose to move pieces not of his/her colour
+        //Need to restrict movement to only forward
+        //Need to unlock movement for kings
         JButton button = (JButton)evt.getSource();
         int[] coord = getCoordinates(button);
-            int x = coord[0];
-            int y = coord[1];
-        boolean redTurn = game.redTurn;
-            
-        if (game.turnStage == 1){
-            //Need to make it so player cannot choose to move pieces not of his/her colour
-            //Need to restrict movement to only forward
-            //Need to unlock movement for kings
-            
-            //This chooses the piece the player wants to move
-            System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
+        int x = coord[0];
+        int y = coord[1];
+        int turnStage = game.turnStage;
+        
+        
+        //Prints buttons coords to console
+        System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
+        
+        //If player is in piece selection stage
+        if (turnStage == 1){
+            //Saves the coords on the selected piece for movement in stage 2
             clickedX = x;
+            System.out.println("x: " + x);
             clickedY = y;
-            System.out.println(x + " " + y);
-            
-            //End
-            game.redTurn = false;
+            System.out.println("y: " + y);
             game.turnStage = 2;
+            System.out.println("ORIGINAL X&Y UPDATED");
         }
-        else if(game.turnStage == 2 && clickedX == x && clickedY == y){
-            //This will allow you to change the piece you want to move after clicking into it
-        }
-        else if(game.turnStage == 2){
-            //This will allow placement
-            
-            //Changes to next players turn
-            if(redTurn = true){
-                game.redTurn = false;
-            }
-            else{
-                game.redTurn = true;
-            }
-            //Changes to first turn stage
+        //If you click on your own piece it deselects it
+        else if(turnStage == 2 && clickedX == x && clickedY == y){
             game.turnStage = 1;
         }
         
+        //This moves the piece and changes the turn to the next player
+        else if(game.turnStage == 2 && clickedX != x && clickedY != y){
+            int xChoice = game.xChoice;
+            System.out.println("CHOICE X" + clickedX);
+            int yChoice = game.yChoice;
+            System.out.println("CHOICE Y" + clickedY);
+
+            
+            
+            boolean redTurn = game.redTurn;
+            //Checks validity of movement
+            if(redTurn == true){
+                int xMove1 = clickedX+1;
+                System.out.println(clickedX + "?");
+                int xMove2 = clickedX-1;
+                System.out.println(clickedX + "?");
+                int yMove = clickedY+1;
+                System.out.println(clickedY + "?");
+                
+                if(x != xMove1 && x != xMove2 || y != yMove){
+                    System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
+                    System.out.println(xMove1 +","+ xMove2 +","+ yMove);
+                    //Cannot move piece to this location...
+                    System.out.println("Cannot move piece to this location!");
+                }
+                else{
+                    movePiece(clickedX,clickedY,x,y);
+                    game.nextTurn();
+                    game.turnStage = 1;
+                    
+                    System.out.println("MOVED" +"TURN: " + game.redTurn);
+                    System.out.println("TURNSTAGE = " + game.turnStage);
+                }
+            }
+            else if (redTurn == false){
+                int xMove1 = clickedX+1;
+                int xMove2 = clickedX-1;
+                int yMove = clickedY-1;
+                if(x != xMove1 && x != xMove2 || y != yMove){
+                    System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
+                    System.out.println(xMove1 +","+ xMove2 +","+ yMove);
+                    //Cannot move piece to this location...
+                    System.out.println("Cannot move piece to this location!");
+                }
+                else{
+                    movePiece(clickedX,clickedY,x,y);
+                    game.nextTurn();
+                    game.turnStage = 1;
+                    System.out.println("MOVED" +"TURN: " + game.redTurn);
+                    System.out.println("TURNSTAGE = " + game.turnStage);
+                }
+            }
+//            else{
+//                System.out.println("MOVED PIECE");
+//                movePiece(xChoice,yChoice,x,y);
+//                //Changes to next players turn
+//                if (game.redTurn == false){
+//                    game.redTurn = true;
+//                    System.out.println("REDTURNTRUE = " + game.redTurn);
+//                }
+//                else if (game.redTurn == true){
+//                    game.redTurn = false;
+//                    System.out.println("REDTURNFALSE = " + game.redTurn);
+//                    System.out.println(" - - END OF TURN - - ");
+//                }
+//
+//                //Changes to first turn stage
+//                game.turnStage = 1;
+//
+//                    if(game.redTurn == true){
+//                        turnLabel.setText("Your turn, red!");
+//                    }
+//                    else if (redTurn == false){
+//                        turnLabel.setText("Your turn, black!");
+//                    }
+//            }
+        }
         
     }
     
@@ -223,6 +299,16 @@ public class GameBoard extends JFrame {
      */
     private void giveUpButtonPressed(java.awt.event.ActionEvent evt) {
         System.out.println("Give Up has been pressed.");
+        if(game.redTurn == false){
+            game.redScore++;
+            redScoreLabel.setText("Red: " + game.redScore + " wins");
+        }
+        else if(game.redTurn == true){
+            game.blackScore++;
+            blackScoreLabel.setText("Black: " + game.blackScore + " wins");
+        }
+        resetBoard();
+        game.reset();
     }
     
     /**
@@ -277,7 +363,7 @@ public class GameBoard extends JFrame {
         
         ImageIcon oldLocation = (ImageIcon)oldButton.getIcon();
         ImageIcon newLocation = (ImageIcon)newButton.getIcon();
-        ImageIcon blankImage = new ImageIcon("src/darkCell.png");
+       // ImageIcon blankImage = new ImageIcon("src/darkCell.png");
         
         // Prints messages for cases that shouldn't happen
         if ((oldXCoord + oldYCoord) % 2 == 1) {
@@ -319,7 +405,7 @@ public class GameBoard extends JFrame {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //GameBoard thisGame = new GameBoard();
+       // GameBoard game = new GameBoard();
         
     }
 }
