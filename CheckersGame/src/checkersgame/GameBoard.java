@@ -108,12 +108,6 @@ public class GameBoard extends JFrame{
         turnLabel.setLocation(887, 150);
         turnLabel.setForeground(Color.GRAY);
         
-//        if (game.redTurn = true){
-//            turn = "Red";
-//        }
-//        else {
-//            turn = "Black";
-//        }
         turnLabel.setText("Your turn, red!");
         gamePanel.add(turnLabel);
         
@@ -184,7 +178,7 @@ public class GameBoard extends JFrame{
         System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
         
         //If player is in piece selection stage
-        if (turnStage == 1){
+        if (turnStage == 1 && validSelection(x,y) == true){
             //Saves the coords on the selected piece for movement in stage 2
             clickedX = x;
             System.out.println("x: " + x);
@@ -357,6 +351,39 @@ public class GameBoard extends JFrame{
      * @param newYCoord the x-coordinate of the new location (0..8)
      * @param newYCoord the y-coordinate of the new location (0..8)
      */
+    
+    private boolean validSelection(int x, int y){
+        ImageIcon click = (ImageIcon)guiBoard[x][y].getIcon();
+        System.out.println("TURN: " + game.redTurn);
+        System.out.println("STAGE: " + game.turnStage);
+        if(click == lightCell){
+            System.out.println("Light");
+        }
+        else if(click == darkCell){
+            System.out.println("Dark");
+        }
+        else if(click == redPiece){
+            System.out.println("Red");
+        }
+        else if(click == blackPiece){
+            System.out.println("Black");
+        }
+        
+        if(click == lightCell || click == darkCell){
+            System.out.println("RETURNED FALSE IN VALIDITY CHECK - lightcell/darkcell");
+            return false;
+        }
+        if(game.redTurn == true && click == blackPiece){
+            System.out.println("RETURNED FALSE IN VALIDITY CHECK - redturn/blackpiece");
+            return false;
+        }
+        if(game.redTurn == false && click == redPiece){
+            System.out.println("RETURNED FALSE IN VALIDITY CHECK - blackturn/redpiece");
+            return false;
+        }
+        System.out.println("RETURNED TRUE IN VALIDITY CHECK");
+        return true;
+    }
     private void movePiece(int oldXCoord, int oldYCoord, int newXCoord, int newYCoord) {
         JButton oldButton = guiBoard[oldXCoord][oldYCoord];        
         JButton newButton = guiBoard[newXCoord][newYCoord];
@@ -368,16 +395,16 @@ public class GameBoard extends JFrame{
         // Prints messages for cases that shouldn't happen
         if ((oldXCoord + oldYCoord) % 2 == 1) {
             System.out.println("The old location is a light cell.");
-        } else if (oldLocation.getDescription().equals(blankImage.getDescription())) {
+        } else if (oldLocation.getDescription().equals(lightCell.getDescription())) {
             System.out.println("The old location is blank.");
         }
         if ((newXCoord + newYCoord) % 2 == 1) {
             System.out.println("The new location is a light cell.");
-        } else if (!newLocation.getDescription().equals(blankImage.getDescription())) {
+        } else if (!newLocation.getDescription().equals(lightCell.getDescription())) {
             System.out.println("The new location is not blank.");
         } 
         
-        oldButton.setIcon(blankImage);
+        oldButton.setIcon(darkCell);
         newButton.setIcon(oldLocation);
     }
     

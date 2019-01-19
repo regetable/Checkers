@@ -109,11 +109,6 @@ public class CheckersGame {
             //This should never display
         }
     }
-    
-    public boolean validTurn(int x, int y){
-        if 
-        return true;
-}
     /**
      * @param args the command line arguments
      */
