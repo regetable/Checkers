@@ -51,6 +51,7 @@ public class GameBoard extends JFrame{
     JLabel scoreLabel = new JLabel();
     JLabel blackScoreLabel = new JLabel();
     JLabel redScoreLabel = new JLabel();
+    JLabel turnPhaseLabel = new JLabel();
     
     /**
      * Creates a new GameBoard form
@@ -110,6 +111,15 @@ public class GameBoard extends JFrame{
         
         turnLabel.setText("Your turn, red!");
         gamePanel.add(turnLabel);
+        
+        // Displays what the player should do next
+        turnPhaseLabel.setSize(250, 100);
+        turnPhaseLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+        turnPhaseLabel.setLocation(887, 200);
+        turnPhaseLabel.setForeground(Color.GRAY);
+        
+        turnPhaseLabel.setText("Select a piece!");
+        gamePanel.add(turnPhaseLabel);
         
         // Displays the word "Score"
         scoreLabel.setSize(200, 100);
@@ -188,11 +198,13 @@ public class GameBoard extends JFrame{
                 clickedY = y;
                 
                 game.turnStage = 2;
+                turnPhaseLabel.setText("Moving piece...");
             }
             
             //If you click on your own piece it deselects it
             else if(turnStage == 2 && clickedX == x && clickedY == y){
                 game.turnStage = 1;
+                turnPhaseLabel.setText("Piece deselected...");
             }
 
             //This moves the piece and changes the turn to the next player
@@ -226,6 +238,7 @@ public class GameBoard extends JFrame{
                         game.nextTurn();
                         game.turnStage = 1;
                         System.out.println("Now blacks turn!");
+                        turnPhaseLabel.setText("Select a piece!");
                     }
                 }
                 else if (redTurn == false){
@@ -246,6 +259,8 @@ public class GameBoard extends JFrame{
                         //Resets everything for next players turn
                         game.nextTurn();
                         game.turnStage = 1;
+                        System.out.println("Now reds turn!");
+                        turnPhaseLabel.setText("Select a piece!");
                     }
                 }
             }
