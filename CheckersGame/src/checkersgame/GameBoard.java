@@ -23,12 +23,12 @@ public class GameBoard extends JFrame{
         
     public boolean gameStarted = false;
     
-    ImageIcon redPiece = new ImageIcon("src/redPiece.png");
-    ImageIcon blackPiece = new ImageIcon("src/blackPiece.png");
+    ImageIcon redPiece = new ImageIcon("src/redPieceWithBackground.png");
+    ImageIcon blackPiece = new ImageIcon("src/blackPieceWithBackground.png");
     ImageIcon darkCell = new ImageIcon("src/darkCell.png");
     ImageIcon lightCell = new ImageIcon("src/lightCell.png");
-    ImageIcon redKing = new ImageIcon("src/redKing.png");
-    ImageIcon blackKing = new ImageIcon("src/blackKing.png");
+    ImageIcon redKing = new ImageIcon("src/redKingWithBackground.png");
+    ImageIcon blackKing = new ImageIcon("src/blackKingWithBackground.png");
     
     // The 2D array of buttons
     JButton[][] guiBoard = new JButton[8][8];
@@ -171,104 +171,98 @@ public class GameBoard extends JFrame{
         int[] coord = getCoordinates(button);
         int x = coord[0];
         int y = coord[1];
-        int turnStage = game.turnStage;
         
+        if(validSelection(x,y) == true){
         
-        //Prints buttons coords to console
-        System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
-        
-        //If player is in piece selection stage
-        if (turnStage == 1 && validSelection(x,y) == true){
-            //Saves the coords on the selected piece for movement in stage 2
-            clickedX = x;
-            System.out.println("x: " + x);
-            clickedY = y;
-            System.out.println("y: " + y);
-            game.turnStage = 2;
-            System.out.println("ORIGINAL X&Y UPDATED");
-        }
-        //If you click on your own piece it deselects it
-        else if(turnStage == 2 && clickedX == x && clickedY == y){
-            game.turnStage = 1;
-        }
-        
-        //This moves the piece and changes the turn to the next player
-        else if(game.turnStage == 2 && clickedX != x && clickedY != y){
-            int xChoice = game.xChoice;
-            System.out.println("CHOICE X" + clickedX);
-            int yChoice = game.yChoice;
-            System.out.println("CHOICE Y" + clickedY);
+            int turnStage = game.turnStage;
 
-            
-            
-            boolean redTurn = game.redTurn;
-            //Checks validity of movement
-            if(redTurn == true){
-                int xMove1 = clickedX+1;
-                System.out.println(clickedX + "?");
-                int xMove2 = clickedX-1;
-                System.out.println(clickedX + "?");
-                int yMove = clickedY+1;
-                System.out.println(clickedY + "?");
+
+            //Prints buttons coords to console
+            System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
+
+            //If player is in piece selection stage
+            if (turnStage == 1){
                 
-                if(x != xMove1 && x != xMove2 || y != yMove){
-                    System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
-                    System.out.println(xMove1 +","+ xMove2 +","+ yMove);
-                    //Cannot move piece to this location...
-                    System.out.println("Cannot move piece to this location!");
-                }
-                else{
-                    movePiece(clickedX,clickedY,x,y);
-                    game.nextTurn();
-                    game.turnStage = 1;
+                //Saves the coords on the selected piece for movement in stage 2
+                clickedX = x;
+                clickedY = y;
+                
+                game.turnStage = 2;
+            }
+            
+            //If you click on your own piece it deselects it
+            else if(turnStage == 2 && clickedX == x && clickedY == y){
+                game.turnStage = 1;
+            }
+
+            //This moves the piece and changes the turn to the next player
+            else if(game.turnStage == 2 && clickedX != x && clickedY != y){
+                boolean redTurn = game.redTurn;
+                
+                //TESTS
+                //System.out.println("CHOICE Y" + clickedY);
+                //System.out.println("CHOICE X" + clickedX);
+
+                
+                //Checks to see whos turn it is
+                if(redTurn == true){
                     
-                    System.out.println("MOVED" +"TURN: " + game.redTurn);
-                    System.out.println("TURNSTAGE = " + game.turnStage);
+                    //These are all the possible x & y coords for reds movement
+                    //PUT A KING IF STATEMENT HERE WHEN KING IS ACTIVATED
+                    int xMove1 = clickedX+1;
+                    int xMove2 = clickedX-1;
+                    int yMove = clickedY+1;
+                    
+                    //Checks to see if inputed movement is invalid
+                    if(x != xMove1 && x != xMove2 || y != yMove){
+                        System.out.println("Cannot move piece to this location!");
+                    }
+                    //Moves piece if everything is chosen correctly
+                    else{
+                        movePiece(clickedX,clickedY,x,y);
+                        System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
+                        
+                        //Resets everything for the next players turn
+                        game.nextTurn();
+                        game.turnStage = 1;
+                        System.out.println("Now blacks turn!");
+                    }
+                }
+                else if (redTurn == false){
+                    int xMove1 = clickedX+1;
+                    int xMove2 = clickedX-1;
+                    int yMove = clickedY-1;
+                    
+                    //These are all the possible x & y coords for reds movement
+                    //PUT A KING IF STATEMENT HERE WHEN KING IS ACTIVATED
+                    if(x != xMove1 && x != xMove2 || y != yMove){
+                        System.out.println("Cannot move piece to this location!");
+                    }
+                    //Moves piece if everything is chosen correctly
+                    else{
+                        movePiece(clickedX,clickedY,x,y);
+                        System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
+                        
+                        //Resets everything for next players turn
+                        game.nextTurn();
+                        game.turnStage = 1;
+                    }
                 }
             }
-            else if (redTurn == false){
-                int xMove1 = clickedX+1;
-                int xMove2 = clickedX-1;
-                int yMove = clickedY-1;
-                if(x != xMove1 && x != xMove2 || y != yMove){
-                    System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
-                    System.out.println(xMove1 +","+ xMove2 +","+ yMove);
-                    //Cannot move piece to this location...
-                    System.out.println("Cannot move piece to this location!");
-                }
-                else{
-                    movePiece(clickedX,clickedY,x,y);
-                    game.nextTurn();
-                    game.turnStage = 1;
-                    System.out.println("MOVED" +"TURN: " + game.redTurn);
-                    System.out.println("TURNSTAGE = " + game.turnStage);
-                }
-            }
-//            else{
-//                System.out.println("MOVED PIECE");
-//                movePiece(xChoice,yChoice,x,y);
-//                //Changes to next players turn
-//                if (game.redTurn == false){
-//                    game.redTurn = true;
-//                    System.out.println("REDTURNTRUE = " + game.redTurn);
-//                }
-//                else if (game.redTurn == true){
-//                    game.redTurn = false;
-//                    System.out.println("REDTURNFALSE = " + game.redTurn);
-//                    System.out.println(" - - END OF TURN - - ");
-//                }
-//
-//                //Changes to first turn stage
-//                game.turnStage = 1;
-//
-//                    if(game.redTurn == true){
-//                        turnLabel.setText("Your turn, red!");
-//                    }
-//                    else if (redTurn == false){
-//                        turnLabel.setText("Your turn, black!");
-//                    }
-//            }
         }
+        else{
+            System.out.println("NO MOVEMENT OCCURED");
+        }
+        
+        //Updates label
+        if(game.redTurn == true){
+           turnLabel.setText("Your turn, red!");
+        }
+        else{
+            turnLabel.setText("Your turn, black!");
+        }
+        
+        
         
     }
     
@@ -354,34 +348,24 @@ public class GameBoard extends JFrame{
     
     private boolean validSelection(int x, int y){
         ImageIcon click = (ImageIcon)guiBoard[x][y].getIcon();
-        System.out.println("TURN: " + game.redTurn);
-        System.out.println("STAGE: " + game.turnStage);
-        if(click == lightCell){
-            System.out.println("Light");
-        }
-        else if(click == darkCell){
-            System.out.println("Dark");
-        }
-        else if(click == redPiece){
-            System.out.println("Red");
-        }
-        else if(click == blackPiece){
-            System.out.println("Black");
-        }
         
-        if(click == lightCell || click == darkCell){
-            System.out.println("RETURNED FALSE IN VALIDITY CHECK - lightcell/darkcell");
+        if(game.turnStage == 1 && click.getDescription().equals(lightCell.getDescription())){
+          //  System.out.println("RETURNED FALSE IN VALIDITY CHECK - lightcell/darkcell");
             return false;
         }
-        if(game.redTurn == true && click == blackPiece){
-            System.out.println("RETURNED FALSE IN VALIDITY CHECK - redturn/blackpiece");
+        if(game.turnStage == 1 && click.getDescription().equals(darkCell.getDescription())){
+        //    System.out.println("RETURNED FALSE IN VALIDITY CHECK - lightcell/darkcell");
             return false;
         }
-        if(game.redTurn == false && click == redPiece){
-            System.out.println("RETURNED FALSE IN VALIDITY CHECK - blackturn/redpiece");
+        if(game.redTurn == true && click.getDescription().equals(blackPiece.getDescription())){
+          //  System.out.println("RETURNED FALSE IN VALIDITY CHECK - redturn/blackpiece");
             return false;
         }
-        System.out.println("RETURNED TRUE IN VALIDITY CHECK");
+        if(game.redTurn == false && click.getDescription().equals(redPiece.getDescription())){
+           // System.out.println("RETURNED FALSE IN VALIDITY CHECK - blackturn/redpiece");
+            return false;
+        }
+      //  System.out.println("RETURNED TRUE IN VALIDITY CHECK");
         return true;
     }
     private void movePiece(int oldXCoord, int oldYCoord, int newXCoord, int newYCoord) {
