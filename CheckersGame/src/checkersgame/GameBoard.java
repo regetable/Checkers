@@ -51,6 +51,7 @@ public class GameBoard extends JFrame{
     JLabel scoreLabel = new JLabel();
     JLabel blackScoreLabel = new JLabel();
     JLabel redScoreLabel = new JLabel();
+    JLabel turnPhaseLabel = new JLabel();
     
     /**
      * Creates a new GameBoard form
@@ -110,6 +111,15 @@ public class GameBoard extends JFrame{
         
         turnLabel.setText("Your turn, red!");
         gamePanel.add(turnLabel);
+        
+        // Displays what the player should do next
+        turnPhaseLabel.setSize(250, 100);
+        turnPhaseLabel.setFont(new Font("Helvetica",Font.PLAIN, 13));
+        turnPhaseLabel.setLocation(887, 180);
+        turnPhaseLabel.setForeground(Color.GRAY);
+        
+        turnPhaseLabel.setText("Select a piece!");
+        gamePanel.add(turnPhaseLabel);
         
         // Displays the word "Score"
         scoreLabel.setSize(200, 100);
@@ -188,11 +198,13 @@ public class GameBoard extends JFrame{
                 clickedY = y;
                 
                 game.turnStage = 2;
+                turnPhaseLabel.setText("Moving piece...");
             }
             
             //If you click on your own piece it deselects it
             else if(turnStage == 2 && clickedX == x && clickedY == y){
                 game.turnStage = 1;
+                turnPhaseLabel.setText("Piece deselected...");
             }
 
             //This moves the piece and changes the turn to the next player
@@ -215,6 +227,7 @@ public class GameBoard extends JFrame{
                     
                     //Checks to see if inputed movement is invalid
                     if(x != xMove1 && x != xMove2 || y != yMove){
+                        turnPhaseLabel.setText(turnPhaseLabel.getText() + " - invalid move");
                         System.out.println("Cannot move piece to this location!");
                     }
                     //Moves piece if everything is chosen correctly
@@ -226,6 +239,7 @@ public class GameBoard extends JFrame{
                         game.nextTurn();
                         game.turnStage = 1;
                         System.out.println("Now blacks turn!");
+                        turnPhaseLabel.setText("Select a piece!");
                     }
                 }
                 else if (redTurn == false){
@@ -236,6 +250,7 @@ public class GameBoard extends JFrame{
                     //These are all the possible x & y coords for reds movement
                     //PUT A KING IF STATEMENT HERE WHEN KING IS ACTIVATED
                     if(x != xMove1 && x != xMove2 || y != yMove){
+                        turnPhaseLabel.setText(turnPhaseLabel.getText() + " - invalid move");
                         System.out.println("Cannot move piece to this location!");
                     }
                     //Moves piece if everything is chosen correctly
@@ -246,11 +261,14 @@ public class GameBoard extends JFrame{
                         //Resets everything for next players turn
                         game.nextTurn();
                         game.turnStage = 1;
+                        System.out.println("Now reds turn!");
+                        turnPhaseLabel.setText("Select a piece!");
                     }
                 }
             }
         }
         else{
+            turnPhaseLabel.setText(turnPhaseLabel.getText() + " invalid move");
             System.out.println("NO MOVEMENT OCCURED");
         }
         
@@ -296,6 +314,9 @@ public class GameBoard extends JFrame{
             blackScoreLabel.setText("Black: " + game.blackScore + " wins");
         }
         resetBoard();
+        turnLabel.setText("Your turn, red!");
+        turnPhaseLabel.setText("Select a piece!");
+        game.nextTurn();
         game.reset();
     }
     
@@ -391,6 +412,81 @@ public class GameBoard extends JFrame{
         oldButton.setIcon(darkCell);
         newButton.setIcon(oldLocation);
     }
+    /**
+     * 
+     * @param x moving piece x
+     * @param y moving piece y
+     * @param x1 potential new x 1
+     * @param x2 potential new x 2
+     * @param y1 new y
+     * @return 
+     */
+    private boolean eliminationCheck(int x1, int y1, int x2, int y2, boolean redTurn, boolean moveRight){
+        
+//        ImageIcon potentialPiece = (ImageIcon)guiBoard[x1][y1].getIcon();
+//        ImageIcon jump = (ImageIcon)guiBoard[x2][y2].getIcon();
+//        
+//        if(potentialPiece.getDescription().equals(redPiece.getDescription()) || potentialPiece.getDescription().equals(blackPiece.getDescription())){
+//            if(moveRight == true){
+//                if(guiBoard[x1])
+//            }
+//            else{
+//                
+//            }
+//        }
+//        else{
+//            return false;
+//        }
+//        
+////        if(guiBoard[x1][y1]){
+////            
+////        }
+//        if(game.redTurn == true){
+//           if(move1.getDescription().equals(redPiece.getDescription())){
+//                coords[0] = 8;
+//                coords[1] = 8;
+//                //Own piece found
+//                return coords;
+//            }
+//            else if(move2.getDescription().equals(redPiece.getDescription())){
+//                coords[0] = 8;
+//                coords[1] = 8;
+//                //Own piece found
+//                return coords;
+//            }
+//            else{
+//                
+//            }
+//        }
+//        else{
+//            if(move1.getDescription().equals(blackPiece.getDescription()) && game.redTurn == true){
+//            return coords;
+//            }
+//            if(move1.getDescription().equals(blackPiece.getDescription()) && game.redTurn == true){
+//            return coords;
+//            }
+//        }
+//        if(move1.getDescription().equals(redPiece.getDescription()) && game.redTurn == false){
+//            return coords;
+//        }
+//        if(move2.getDescription().equals(redPiece.getDescription()) && game.redTurn == true){
+//            coords[0] = 8;
+//            coords[1] = 8;
+//            //Own piece found
+//            return coords;
+//        }
+//        if(move1.getDescription().equals(blackPiece.getDescription()) && game.redTurn == true){
+//            return coords;
+//        }
+//        if(move2.getDescription().equals(blackPiece.getDescription()) && game.redTurn == false){
+//            coords[0] = 8;
+//            coords[1] = 8;
+//            //Own piece found
+//            return coords;
+//        }
+        
+    return true;   
+    }
     
     /**
      * Changes the images on the buttons of the game board to match the initial
@@ -406,6 +502,11 @@ public class GameBoard extends JFrame{
             for (int k = 5; k < 8; k++) {
                 if ((i + k) % 2 == 0) {
                     putPiece(i, k, "black");
+                }
+            }
+            for (int h = 3; h < 5; h++) {
+                if ((i + h) % 2 == 0) {
+                    putPiece(i, h, "blank");
                 }
             }
         }
