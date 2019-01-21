@@ -22,12 +22,7 @@ public class CheckersGame {
     
 
     public CheckersGame(){
-//    this.redTurn = true;
-//    this.blackScore = 0;
-//    this.redScore = 0;
-//    this.blackPieceCount = 0;
-//    this.redPieceCount = 0;
-//    this.turnStage = 1;
+
     }
 
     /**
@@ -39,7 +34,7 @@ public class CheckersGame {
     }
 
     /**
-     *Resets the game - dont think this is needed anymore...
+     *Resets the game
      */
     public void reset(){
         turnStage = 1;
