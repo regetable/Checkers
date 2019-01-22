@@ -12,11 +12,11 @@ package checkersgame;
 public class CheckersGame {
     
     public boolean redTurn = true;
-    public int blackScore = 0;
-    public int redScore = 0;
+    public static int blackScore = 0;
+    public static int redScore = 0;
     public int turnStage = 1;
-    public int blackPieceCount = 8;
-    public int redPieceCount = 8;
+    public static int blackPieceCount = 12;
+    public static int redPieceCount = 12;
     public int xChoice;
     public int yChoice;
     
@@ -28,14 +28,6 @@ public class CheckersGame {
 //    this.blackPieceCount = 0;
 //    this.redPieceCount = 0;
 //    this.turnStage = 1;
-    }
-
-    /**
-     * Removes a piece from play
-     * @param piece 
-     */
-    public void eliminate(GamePiece piece){
-
     }
 
     /**
@@ -57,25 +49,6 @@ public class CheckersGame {
         }
         else if(redTurn == false){
             redTurn = true;
-        }
-    }
-
-    /**
-     * Displays winning message
-     * 
-     */
-    public void win(){
-        if (redPieceCount == 0){
-            blackScore++;
-            System.out.println("increased black score");
-        }
-        else if (blackPieceCount == 0){
-            redScore++;
-            System.out.println("increased red score");
-        }
-        else{
-            System.out.println("No one has won!");
-            //This should never display
         }
     }
 
@@ -115,6 +88,8 @@ public class CheckersGame {
     public static void main(String[] args) {
         new GameBoard().setVisible(true);
         
+            
+
     }
     
 }
