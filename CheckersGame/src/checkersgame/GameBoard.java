@@ -40,12 +40,12 @@ public class GameBoard extends JFrame{
     // The panel that has all the buttons and labels
     JPanel gamePanel = new JPanel();
     
+    // The panel that has the instructions listed
+    JPanel instructionPanel = new JPanel();
+    
     // The CheckersGame that has the information about the current game
     CheckersGame game = new CheckersGame();
-    
-    // Whose turn it is: "Black" (first player) or "Red" (second player)
-   // String turn; 
-    
+   
     // The buttons on the board
     JButton playButton = new JButton(); 
     JButton giveUpButton = new JButton();
@@ -56,6 +56,7 @@ public class GameBoard extends JFrame{
     JLabel blackScoreLabel = new JLabel();
     JLabel redScoreLabel = new JLabel();
     JLabel turnPhaseLabel = new JLabel();
+    JLabel validMoveLabel = new JLabel();
     
     /**
      * Creates a new GameBoard form
@@ -64,6 +65,8 @@ public class GameBoard extends JFrame{
         // Sets the background of the board to white
         gamePanel.setLayout(null);
         gamePanel.setBackground(Color.WHITE);
+        instructionPanel.setLayout(null);
+        instructionPanel.setBackground(Color.WHITE);
        
         // Adds all 64 buttons that make up the cells of the game board
         for(int i = 0; i < 8; i++) {
@@ -114,7 +117,7 @@ public class GameBoard extends JFrame{
         turnLabel.setLocation(800, 200);
         turnLabel.setForeground(Color.GRAY);
         
-        turnLabel.setText("Your turn, red!");
+        turnLabel.setText("Press Play to Begin!");
         gamePanel.add(turnLabel);
         
         // Displays what the player should do next
@@ -125,6 +128,14 @@ public class GameBoard extends JFrame{
         
         turnPhaseLabel.setText("Select a piece!");
         gamePanel.add(turnPhaseLabel);
+        
+        // Displays "invalid move" to the player if one is attempted
+        validMoveLabel.setSize(250, 100);
+        validMoveLabel.setFont(new Font("Helvetica",Font.PLAIN, 13));
+        validMoveLabel.setLocation(925, 180);
+        validMoveLabel.setForeground(Color.GRAY);
+        validMoveLabel.setText("");
+        gamePanel.add(validMoveLabel);
         
         // Displays the word "Score"
         scoreLabel.setSize(200, 100);
@@ -192,7 +203,6 @@ public class GameBoard extends JFrame{
         
             int turnStage = game.turnStage;
 
-
             //Prints buttons coords to console
             System.out.println(Arrays.toString(getCoordinates(button)) + " has been pressed.");
 
@@ -212,17 +222,13 @@ public class GameBoard extends JFrame{
             else if(turnStage == 2 && clickedX == x && clickedY == y){
                 game.turnStage = 1;
                 turnPhaseLabel.setText("Piece deselected...");
+                validMoveLabel.setText("");
                 button.setBorder(null);
             }
 
             //This moves the piece and changes the turn to the next player
             else if(game.turnStage == 2 && clickedX != x && clickedY != y){
                 boolean redTurn = game.redTurn;
-                
-                //TESTS
-                //System.out.println("CHOICE Y" + clickedY);
-                //System.out.println("CHOICE X" + clickedX);
-
                 
                 //Checks to see whos turn it is
                 if(redTurn == true){
@@ -233,6 +239,8 @@ public class GameBoard extends JFrame{
                     int[] moveTwo = {-1,-1};
                     int[] moveThree = {-1,-1};
                     int[] moveFour = {-1,-1};
+                    
+                    
                     
                     JButton gamePiece = guiBoard[clickedX][clickedY];
                     ImageIcon gamePieceIcon = (ImageIcon)gamePiece.getIcon();
@@ -325,7 +333,9 @@ public class GameBoard extends JFrame{
                     //Checks to see if inputed movement is invalid
                     if(!Arrays.equals(moveAttempt,moveOne) && !Arrays.equals(moveAttempt,moveTwo) 
                             && !Arrays.equals(moveAttempt,moveThree) && !Arrays.equals(moveAttempt,moveFour)){
-                        turnPhaseLabel.setText(turnPhaseLabel.getText() + " - invalid move");
+                            
+                        validMoveLabel.setText("Invalid move!");
+                        
                         System.out.println("Cannot move piece to this location!");
                         System.out.println(Arrays.toString(moveAttempt));
                         
@@ -349,6 +359,7 @@ public class GameBoard extends JFrame{
                         game.turnStage = 1;
                         System.out.println("Now blacks turn!");
                         turnPhaseLabel.setText("Select a piece!");
+                        validMoveLabel.setText("");
                     }
                 }
                 else if (redTurn == false){
@@ -450,7 +461,9 @@ public class GameBoard extends JFrame{
 
                     if(!Arrays.equals(moveAttempt,moveOne) && !Arrays.equals(moveAttempt,moveTwo) 
                             && !Arrays.equals(moveAttempt,moveThree) && !Arrays.equals(moveAttempt,moveFour)){
-                        turnPhaseLabel.setText(turnPhaseLabel.getText() + " - invalid move");
+                        
+                        validMoveLabel.setText("Invalid move!"); 
+                        
                         System.out.println("Cannot move piece to this location!");
                     }
                     //Moves piece if everything is chosen correctly
@@ -470,18 +483,19 @@ public class GameBoard extends JFrame{
                         game.turnStage = 1;
                         System.out.println("Now reds turn!");
                         turnPhaseLabel.setText("Select a piece!");
+                        validMoveLabel.setText("");
                     }
                 }
             }
         }
         else{
-            turnPhaseLabel.setText(turnPhaseLabel.getText() + " invalid move");
+            validMoveLabel.setText("Invalid move!");
             System.out.println("NO MOVEMENT OCCURED");
         }
         
         //Updates label
         if(game.redTurn == true){
-           turnLabel.setText("Your turn, red!");
+            turnLabel.setText("Your turn, red!");
         }
         else{
             turnLabel.setText("Your turn, black!");
@@ -500,6 +514,7 @@ public class GameBoard extends JFrame{
             System.out.println("increased red score");
         }
         
+        
     }
     
     
@@ -509,10 +524,11 @@ public class GameBoard extends JFrame{
      */
     private void playButtonPressed(java.awt.event.ActionEvent evt) {
         System.out.println("Play has been pressed.");
+        
         gameStarted = true;
         playButton.setEnabled(false);
         giveUpButton.setEnabled(true);
-        turnLabel.setText("Your turn, red!");
+        turnLabel.setText("Your turn, black!");
         turnPhaseLabel.setText("Select a piece!");
         resetBoard();
         for(int i = 0; i < 8; i++) {
@@ -607,28 +623,30 @@ public class GameBoard extends JFrame{
         ImageIcon click = (ImageIcon)guiBoard[x][y].getIcon();
         
         if(game.turnStage == 1 && click.getDescription().equals(lightCell.getDescription())){
-          //  System.out.println("RETURNED FALSE IN VALIDITY CHECK - lightcell/darkcell");
+            validMoveLabel.setText("Invalid move!");
             return false;
         }
         if(game.turnStage == 1 && click.getDescription().equals(darkCell.getDescription())){
-        //    System.out.println("RETURNED FALSE IN VALIDITY CHECK - lightcell/darkcell");
+            validMoveLabel.setText("Invalid move!");
             return false;
         }
         if(game.redTurn == true && click.getDescription().equals(blackPiece.getDescription())){
-          //  System.out.println("RETURNED FALSE IN VALIDITY CHECK - redturn/blackpiece");
+            validMoveLabel.setText("Invalid move!");
             return false;
         }
         if (game.redTurn == true && click.getDescription().equals(blackKing.getDescription())){
+            validMoveLabel.setText("Invalid move!");
             return false;
         }
         if(game.redTurn == false && click.getDescription().equals(redPiece.getDescription())){
-           // System.out.println("RETURNED FALSE IN VALIDITY CHECK - blackturn/redpiece");
+            validMoveLabel.setText("Invalid move!");
             return false;
         }
         if(game.redTurn == false && click.getDescription().equals(redKing.getDescription())){
+            validMoveLabel.setText("Invalid move!");
             return false;
         }
-      //  System.out.println("RETURNED TRUE IN VALIDITY CHECK");
+        
         return true;
     }
     
@@ -655,6 +673,7 @@ public class GameBoard extends JFrame{
         }
         if ((newXCoord + newYCoord) % 2 == 1) {
             System.out.println("The new location is a light cell.");
+            validMoveLabel.setText("Invalid move!");
         } else if (!newLocation.getDescription().equals(lightCell.getDescription())) {
             System.out.println("The new location is not blank.");
         } 
@@ -709,7 +728,5 @@ public class GameBoard extends JFrame{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       // GameBoard game = new GameBoard();
-        
     }
 }
