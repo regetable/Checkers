@@ -356,13 +356,17 @@ public class GameBoard extends JFrame{
         button.setIcon(image);
     }
     
-    
     /**
-     * Checks to see whether a move is valid
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @return true if move is valid else false
+     * Changes the image on the buttons at the two locations. 
+     * The current location gets changed to a blank piece, and the
+     * new location gets changed to the piece that was at the old location.
+     * Prints anything suspicious to the console.
+     * @param oldXCoord the x-coordinate of the old location (0..8)
+     * @param oldYCoord the y-coordinate of the old location (0..8)
+     * @param newYCoord the x-coordinate of the new location (0..8)
+     * @param newYCoord the y-coordinate of the new location (0..8)
      */
+    
     private boolean validSelection(int x, int y){
         ImageIcon click = (ImageIcon)guiBoard[x][y].getIcon();
         
@@ -385,16 +389,6 @@ public class GameBoard extends JFrame{
       //  System.out.println("RETURNED TRUE IN VALIDITY CHECK");
         return true;
     }
-    /**
-     * Changes the image on the buttons at the two locations. 
-     * The current location gets changed to a blank piece, and the
-     * new location gets changed to the piece that was at the old location.
-     * Prints anything suspicious to the console.
-     * @param oldXCoord the x-coordinate of the old location (0..8)
-     * @param oldYCoord the y-coordinate of the old location (0..8)
-     * @param newYCoord the x-coordinate of the new location (0..8)
-     * @param newYCoord the y-coordinate of the new location (0..8)
-     */
     private void movePiece(int oldXCoord, int oldYCoord, int newXCoord, int newYCoord) {
         JButton oldButton = guiBoard[oldXCoord][oldYCoord];        
         JButton newButton = guiBoard[newXCoord][newYCoord];
