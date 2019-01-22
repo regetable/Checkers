@@ -11,7 +11,7 @@ package checkersgame;
  */
 public class CheckersGame {
     
-    public boolean redTurn = true;
+    public boolean redTurn = false;
     public static int blackScore = 0;
     public static int redScore = 0;
     public int turnStage = 1;
@@ -88,8 +88,10 @@ public class CheckersGame {
     public static void main(String[] args) {
         new GameBoard().setVisible(true);
         
-            
-
+        //Makes the Instructions visible on startup and centered
+        Instructions rules = new Instructions();
+        rules.setLocationRelativeTo(null);
+        rules.setVisible(true);
     }
     
 }
