@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Component id="jLabel1" alignment="0" pref="733" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="700" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextPane" name="jTextPane1">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="Object: &#xa;----------&#xa;Eliminate all your opponents pieces, or make them &#x201c;Give Up&#x201d;.&#xa;&#xa;Gameplay: &#xa;----------&#xa;Press play - red player goes first, and play will alternate back and forth between them. On your turn, make a move (see &#x201c;Making a move&#x201d; below), this move must not be on top of your own piece and must be towards your opponents starting side. Try and eliminate (See &#x201c;Eliminating&#x201d; below) your opponents pieces whenever possible, but be strategic and think ahead - otherwise you might end up losing your own piece right after. When a player wins (See &#x201c;Winning&#x201d; below) a point will be added to their respective score in the bottom right of the screen. A new game will be started, and play will begin normally.&#xa;&#xa;Making a move:&#xa;----------&#xa;There are 2 stages to moving a piece, starting with the selection stage and then the placement/move stage. During the selection stage, choose a piece of your own colour to move. This piece must be able to move, meaning: there can not be pieces on all four of its adjacent corners - unless an elimination is possible (see &#x201c;Eliminating&#x201d; below). Once a piece is chosen the placement/move stage has begun. Now choose an open dark tile directly adjacent to your selected piece to make it move there - this move must be toward your opponents starting side unless your piece is a king (see &#x201c;Kings&#x201d; below). Now your turn is complete and play switches to the other player and they will begin with the selection stage.&#xa;&#xa;Eliminating:&#xa;----------&#xa;Eliminating a piece means taking it out of play. This is how you achieve your main objective in the game - to eliminate all of your opponents pieces. To eliminate, during the second phase of your turn choose a tile adjacent to you that has an opponent&apos;s piece on it. If there is an open space behind and adjacent to the opponent&apos;s piece in same direction you chose to move (if your black, you move either up and right or up and left - the opposite is true for red.), then you can eliminate this piece. If you choose to do so, the piece you wanted to eliminate will be removed from play and you will take the spot back and adjacent to it, that was verified to be open earlier. Play then moves to the next player.&#xa;&#xa;Kings:&#xa;----------&#xa;A piece becomes a king when it reaches the opposite side of the game board that it started on. When a piece is kinged it can move any direction - not just in that of their opponents starting side (so long as it&apos;s on a dark tile). This is the most powerful piece in the game - use it strategically.&#xa; not just in that of their opponents starting side (so long as it&apos;s on a dark tile). This is the most powerful piece in the game - use it strategically.&#xa;&#xa;Winning:&#xa;----------&#xa;There are two ways to win, either by being the first player to eliminate all the opponents pieces, or if your opponent &#x201c;Gives Up&#x201d;. If they &#x201c;Give up&#x201d;, they will choose the button in the bottom right. This will give the appropriate player a point and a new game will start.&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Silom" size="18" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="How to play Retro Checkers"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
