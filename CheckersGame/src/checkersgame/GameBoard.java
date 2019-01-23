@@ -125,7 +125,6 @@ public class GameBoard extends JFrame{
         turnPhaseLabel.setFont(new Font("Helvetica",Font.PLAIN, 13));
         turnPhaseLabel.setLocation(800, 180);
         turnPhaseLabel.setForeground(Color.GRAY);
-        
         turnPhaseLabel.setText("Select a piece!");
         gamePanel.add(turnPhaseLabel);
         
@@ -191,9 +190,6 @@ public class GameBoard extends JFrame{
      * @param evt 
      */
     private void buttonPressed(java.awt.event.ActionEvent evt) {
-        //Need to make it so player cannot choose to move pieces not of his/her colour
-        //Need to restrict movement to only forward
-        //Need to unlock movement for kings
         JButton button = (JButton)evt.getSource();
         int[] coord = getCoordinates(button);
         int x = coord[0];
@@ -227,10 +223,10 @@ public class GameBoard extends JFrame{
                 button.setBorder(null);
                 if (!game.firstMove){
                     //Resets everything for the next players turn
-                                game.nextTurn();
-                                game.isSelected = false;
-                                turnPhaseLabel.setText("Select a piece!");
-                                validMoveLabel.setText("");
+                    game.nextTurn();
+                    game.isSelected = false;
+                    turnPhaseLabel.setText("Select a piece!");
+                    validMoveLabel.setText("");
                 }
                 
             }
@@ -247,281 +243,267 @@ public class GameBoard extends JFrame{
                 int[] moveFour = {-1,-1};
                 
                 boolean extraJumpPossible = true;
-                    
-                //while (extraJumpPossible){
-                    extraJumpPossible = false;
-                    //Checks to see whos turn it is
-                    if(redTurn){
-                    
-                        JButton gamePiece = guiBoard[clickedX][clickedY];
-                        ImageIcon gamePieceIcon = (ImageIcon)gamePiece.getIcon();
-                        boolean isKing = false;
-                        if (gamePieceIcon.getDescription().equals(redKing.getDescription())){
-                            isKing = true;
-                        }
+                
+                extraJumpPossible = false;
+                
+                //Checks to see whose turn it is
+                if(redTurn){
+
+                    JButton gamePiece = guiBoard[clickedX][clickedY];
+                    ImageIcon gamePieceIcon = (ImageIcon)gamePiece.getIcon();
+                    boolean isKing = false;
+                    if (gamePieceIcon.getDescription().equals(redKing.getDescription())){
+                        isKing = true;
+                    }
+                    // Prevents comparison of non-existant array elements.
+                    if (clickedY > 0 && isKing) {
                         // Prevents comparison of non-existant array elements.
-                        if (clickedY > 0 && isKing) {
-                            // Prevents comparison of non-existant array elements.
-                            if (clickedX > 0) {
-                                // Checks the icons of the two squares diagonally up and left and determines if a movement or a jump is possible.
-                                ImageIcon upLeft = (ImageIcon)guiBoard[clickedX-1][clickedY-1].getIcon();
-                                if (upLeft.getDescription().equals(blackPiece.getDescription()) 
-                                        || upLeft.getDescription().equals(blackKing.getDescription())) {
-                                    // Prevents comparison of non-existant array elements.
-                                    if (clickedY > 1 && clickedX > 1) {
-                                        ImageIcon jumpUpLeft = (ImageIcon)guiBoard[clickedX-2][clickedY-2].getIcon();
-                                        if (jumpUpLeft.getDescription().equals(darkCell.getDescription())) {
-                                            moveOne = new int[] {clickedX-2,clickedY-2};
-                                        }
-                                    }                            
-                                } else if (upLeft.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
-                                    moveOne = new int[] {clickedX-1,clickedY-1};
-                                }
-                            }
-                        
-                            // Prevents comparison of non-existant array elements.
-                            if (clickedX < 7) {
-                                // Checks the icons of the two squares diagonally up and right and determines if a movement or a jump is possible.
-                                ImageIcon upRight = (ImageIcon)guiBoard[clickedX+1][clickedY-1].getIcon();
-                                if (upRight.getDescription().equals(blackPiece.getDescription()) 
-                                        || upRight.getDescription().equals(blackKing.getDescription())) {
-                                    // Prevents comparison of non-existant array elements.
-                                    if (clickedY > 1 && clickedX < 6) {
-                                        ImageIcon jumpUpRight = (ImageIcon)guiBoard[clickedX+2][clickedY-2].getIcon();
-                                        if (jumpUpRight.getDescription().equals(darkCell.getDescription())) {
-                                            moveTwo = new int[] {clickedX+2,clickedY-2};
-                                        }
-                                    }  
-                                } else if (upRight.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
-                                moveTwo = new int[] {clickedX+1,clickedY-1};
-                                }
-                            }
-                        
-                        }
-                    
-                        // Prevents comparison of non-existant array elements.
-                        if (clickedY < 7) {
-                            // Prevents comparison of non-existant array elements.
-                            if (clickedX > 0) {
-                                // Checks the icons of the two squares diagonally down and left and determines if a movement or a jump is possible.
-                                ImageIcon downLeft = (ImageIcon)guiBoard[clickedX-1][clickedY+1].getIcon();
-                                if (downLeft.getDescription().equals(blackPiece.getDescription()) 
-                                        || downLeft.getDescription().equals(blackKing.getDescription())) {
-                                    // Prevents comparison of non-existant array elements.
-                                    if (clickedX > 1 && clickedY < 6 ) {
-                                        ImageIcon jumpDownLeft = (ImageIcon)guiBoard[clickedX-2][clickedY+2].getIcon();
-                                        if (jumpDownLeft.getDescription().equals(darkCell.getDescription())) {
-                                            moveThree = new int[] {clickedX-2,clickedY+2};
-                                        }
+                        if (clickedX > 0) {
+                            // Checks the icons of the two squares diagonally up and left and determines if a movement or a jump is possible.
+                            ImageIcon upLeft = (ImageIcon)guiBoard[clickedX-1][clickedY-1].getIcon();
+                            if (upLeft.getDescription().equals(blackPiece.getDescription()) 
+                                    || upLeft.getDescription().equals(blackKing.getDescription())) {
+                                // Prevents comparison of non-existant array elements.
+                                if (clickedY > 1 && clickedX > 1) {
+                                    ImageIcon jumpUpLeft = (ImageIcon)guiBoard[clickedX-2][clickedY-2].getIcon();
+                                    if (jumpUpLeft.getDescription().equals(darkCell.getDescription())) {
+                                        moveOne = new int[] {clickedX-2,clickedY-2};
                                     }
-                                
-                                } else if (downLeft.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
-                                    moveThree = new int[] {clickedX-1,clickedY+1};
-                                }
+                                }                            
+                            } else if (upLeft.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
+                                moveOne = new int[] {clickedX-1,clickedY-1};
                             }
-                        
-                            // Prevents comparison of non-existant array elements.
-                            if (clickedX < 7) {
-                                // Checks the icons of the two squares diagonally down and right and determines if a movement or a jump is possible.
-                                ImageIcon downRight = (ImageIcon)guiBoard[clickedX+1][clickedY+1].getIcon();
-                                if (downRight.getDescription().equals(blackPiece.getDescription()) 
-                                        || downRight.getDescription().equals(blackKing.getDescription())) {
-                                    // Prevents comparison of non-existant array elements.
-                                    if (clickedX < 6 && clickedY < 6) {
-                                    ImageIcon jumpDownRight = (ImageIcon)guiBoard[clickedX+2][clickedY+2].getIcon();
-                                        if (jumpDownRight.getDescription().equals(darkCell.getDescription())) {
-                                            moveFour = new int[] {clickedX+2,clickedY+2};
-                                        }
-                                    }                                
-                                } else if (downRight.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
-                                    moveFour = new int[] {clickedX+1,clickedY+1};
-                                }
-                            }
-                        
                         }
-                    
-                    
-                        //Checks to see if inputed movement is invalid
-                        if(!Arrays.equals(moveAttempt,moveOne) && !Arrays.equals(moveAttempt,moveTwo) 
-                                && !Arrays.equals(moveAttempt,moveThree) && !Arrays.equals(moveAttempt,moveFour)){
-                            
-                            validMoveLabel.setText("Invalid move!");
-                        
-                            System.out.println("Cannot move piece to this location!");
-                            System.out.println(Arrays.toString(moveAttempt));
-                        
-                        
-                        }
-                        //Moves piece if everything is chosen correctly
-                        else{
-                            // Changes piece to king if far side is reached.   
-                            if (y == 7){
-                                gamePiece.setIcon(redKing);
-                                isKing = true;
+
+                        // Prevents comparison of non-existant array elements.
+                        if (clickedX < 7) {
+                            // Checks the icons of the two squares diagonally up and right and determines if a movement or a jump is possible.
+                            ImageIcon upRight = (ImageIcon)guiBoard[clickedX+1][clickedY-1].getIcon();
+                            if (upRight.getDescription().equals(blackPiece.getDescription()) 
+                                    || upRight.getDescription().equals(blackKing.getDescription())) {
+                                // Prevents comparison of non-existant array elements.
+                                if (clickedY > 1 && clickedX < 6) {
+                                    ImageIcon jumpUpRight = (ImageIcon)guiBoard[clickedX+2][clickedY-2].getIcon();
+                                    if (jumpUpRight.getDescription().equals(darkCell.getDescription())) {
+                                        moveTwo = new int[] {clickedX+2,clickedY-2};
+                                    }
+                                }  
+                            } else if (upRight.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
+                                moveTwo = new int[] {clickedX+1,clickedY-1};
                             }
-                            gamePiece.setBorder(null);
-                            movePiece(clickedX,clickedY,x,y);
-                            game.firstMove = false;
-                            System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
-                        
-                            // Eliminates the piece in between the start and finish location if a jump is made.
-                            if (Math.abs(clickedX - x) == 2){
-                                eliminate((clickedX + x)/2, (clickedY + y)/2);
-                                extraJumpPossible = secondSkip(isKing,x,y);
-                                System.out.println(extraJumpPossible);
-                                clickedX = x;
-                                clickedY = y;
-                            }
-                            if (!extraJumpPossible){
-                                //Resets everything for the next players turn
-                                game.nextTurn();
-                                game.isSelected = false;
-                                System.out.println("Now blacks turn!");
-                                turnPhaseLabel.setText("Select a piece!");
-                                validMoveLabel.setText("");
-                            }
-                        
-                        
                         }
                     }
-                    else if (!redTurn){
 
-                        JButton gamePiece = guiBoard[clickedX][clickedY];
-                        ImageIcon gamePieceIcon = (ImageIcon)gamePiece.getIcon();
-                        boolean isKing = false;
-                        if (gamePieceIcon.getDescription().equals(blackKing.getDescription())){
+                    // Prevents comparison of non-existant array elements.
+                    if (clickedY < 7) {
+                        // Prevents comparison of non-existant array elements.
+                        if (clickedX > 0) {
+                            // Checks the icons of the two squares diagonally down and left and determines if a movement or a jump is possible.
+                            ImageIcon downLeft = (ImageIcon)guiBoard[clickedX-1][clickedY+1].getIcon();
+                            if (downLeft.getDescription().equals(blackPiece.getDescription()) 
+                                    || downLeft.getDescription().equals(blackKing.getDescription())) {
+                                // Prevents comparison of non-existant array elements.
+                                if (clickedX > 1 && clickedY < 6 ) {
+                                    ImageIcon jumpDownLeft = (ImageIcon)guiBoard[clickedX-2][clickedY+2].getIcon();
+                                    if (jumpDownLeft.getDescription().equals(darkCell.getDescription())) {
+                                        moveThree = new int[] {clickedX-2,clickedY+2};
+                                    }
+                                }
+
+                            } else if (downLeft.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
+                                moveThree = new int[] {clickedX-1,clickedY+1};
+                            }
+                        }
+
+                        // Prevents comparison of non-existant array elements.
+                        if (clickedX < 7) {
+                            // Checks the icons of the two squares diagonally down and right and determines if a movement or a jump is possible.
+                            ImageIcon downRight = (ImageIcon)guiBoard[clickedX+1][clickedY+1].getIcon();
+                            if (downRight.getDescription().equals(blackPiece.getDescription()) 
+                                    || downRight.getDescription().equals(blackKing.getDescription())) {
+                                // Prevents comparison of non-existant array elements.
+                                if (clickedX < 6 && clickedY < 6) {
+                                ImageIcon jumpDownRight = (ImageIcon)guiBoard[clickedX+2][clickedY+2].getIcon();
+                                    if (jumpDownRight.getDescription().equals(darkCell.getDescription())) {
+                                        moveFour = new int[] {clickedX+2,clickedY+2};
+                                    }
+                                }                                
+                            } else if (downRight.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
+                                moveFour = new int[] {clickedX+1,clickedY+1};
+                            }
+                        }
+                    }
+                    
+                    
+                    //Checks to see if inputed movement is invalid
+                    if(!Arrays.equals(moveAttempt,moveOne) && !Arrays.equals(moveAttempt,moveTwo) 
+                            && !Arrays.equals(moveAttempt,moveThree) && !Arrays.equals(moveAttempt,moveFour)){
+
+                        validMoveLabel.setText("Invalid move!");
+
+                        System.out.println("Cannot move piece to this location!");
+                        System.out.println(Arrays.toString(moveAttempt));
+                    }
+                    //Moves piece if everything is chosen correctly
+                    else{
+                        // Changes piece to king if far side is reached.   
+                        if (y == 7){
+                            gamePiece.setIcon(redKing);
                             isKing = true;
                         }
-                    
-                        // Prevents comparison of non-existant array elements.
-                        if (clickedY > 0) {
-                            // Prevents comparison of non-existant array elements.
-                            if (clickedX > 0) {
-                                // Checks the icons of the two squares diagonally up and left and determines if a movement or a jump is possible.
-                                ImageIcon upLeft = (ImageIcon)guiBoard[clickedX-1][clickedY-1].getIcon();
-                                if (upLeft.getDescription().equals(redPiece.getDescription()) 
-                                        || upLeft.getDescription().equals(redKing.getDescription())) {
-                                    // Prevents comparison of non-existant array elements.
-                                    if (clickedY > 1 && clickedX > 1) {
-                                        ImageIcon jumpUpLeft = (ImageIcon)guiBoard[clickedX-2][clickedY-2].getIcon();
-                                        if (jumpUpLeft.getDescription().equals(darkCell.getDescription())) {
-                                            moveOne = new int[] {clickedX-2,clickedY-2};
-                                        }
-                                    }                            
-                                } else if (upLeft.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
-                                    moveOne = new int[] {clickedX-1,clickedY-1};
-                                }
-                            }
-                        
-                            // Prevents comparison of non-existant array elements.
-                            if (clickedX < 7) {
-                                // Checks the icons of the two squares diagonally up and right and determines if a movement or a jump is possible.
-                                ImageIcon upRight = (ImageIcon)guiBoard[clickedX+1][clickedY-1].getIcon();
-                                if (upRight.getDescription().equals(redPiece.getDescription()) 
-                                        || upRight.getDescription().equals(redKing.getDescription())) {
-                                    // Prevents comparison of non-existant array elements.
-                                    if (clickedY > 1 && clickedX < 6) {
-                                        ImageIcon jumpUpRight = (ImageIcon)guiBoard[clickedX+2][clickedY-2].getIcon();
-                                        if (jumpUpRight.getDescription().equals(darkCell.getDescription())) {
-                                            moveTwo = new int[] {clickedX+2,clickedY-2};
-                                        }
-                                    }  
-                                } else if (upRight.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
-                                moveTwo = new int[] {clickedX+1,clickedY-1};
-                                }
-                            }
-                        
+                        gamePiece.setBorder(null);
+                        movePiece(clickedX,clickedY,x,y);
+                        game.firstMove = false;
+                        System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
+
+                        // Eliminates the piece in between the start and finish location if a jump is made.
+                        if (Math.abs(clickedX - x) == 2){
+                            eliminate((clickedX + x)/2, (clickedY + y)/2);
+                            extraJumpPossible = secondSkip(isKing,x,y);
+                            System.out.println(extraJumpPossible);
+                            clickedX = x;
+                            clickedY = y;
                         }
-                    
+                        if (!extraJumpPossible){
+                            //Resets everything for the next players turn
+                            game.nextTurn();
+                            game.isSelected = false;
+                            System.out.println("Now blacks turn!");
+                            turnPhaseLabel.setText("Select a piece!");
+                            validMoveLabel.setText("");
+                        }
+                    }
+                }   
+                else if (!redTurn){
+
+                    JButton gamePiece = guiBoard[clickedX][clickedY];
+                    ImageIcon gamePieceIcon = (ImageIcon)gamePiece.getIcon();
+                    boolean isKing = false;
+                    if (gamePieceIcon.getDescription().equals(blackKing.getDescription())){
+                        isKing = true;
+                    }
+
+                    // Prevents comparison of non-existant array elements.
+                    if (clickedY > 0) {
                         // Prevents comparison of non-existant array elements.
-                        if (clickedY < 7 && isKing) {
-                            // Prevents comparison of non-existant array elements.
-                            if (clickedX > 0) {
-                                // Checks the icons of the two squares diagonally down and left and determines if a movement or a jump is possible.
-                                ImageIcon downLeft = (ImageIcon)guiBoard[clickedX-1][clickedY+1].getIcon();
-                                if (downLeft.getDescription().equals(redPiece.getDescription()) 
-                                        || downLeft.getDescription().equals(redKing.getDescription())) {
-                                    // Prevents comparison of non-existant array elements.
-                                    if (clickedX > 1 && clickedY < 6 ) {
-                                        ImageIcon jumpDownLeft = (ImageIcon)guiBoard[clickedX-2][clickedY+2].getIcon();
-                                        if (jumpDownLeft.getDescription().equals(darkCell.getDescription())) {
-                                            moveThree = new int[] {clickedX-2,clickedY+2};
-                                        }
+                        if (clickedX > 0) {
+                            // Checks the icons of the two squares diagonally up and left and determines if a movement or a jump is possible.
+                            ImageIcon upLeft = (ImageIcon)guiBoard[clickedX-1][clickedY-1].getIcon();
+                            if (upLeft.getDescription().equals(redPiece.getDescription()) 
+                                    || upLeft.getDescription().equals(redKing.getDescription())) {
+                                // Prevents comparison of non-existant array elements.
+                                if (clickedY > 1 && clickedX > 1) {
+                                    ImageIcon jumpUpLeft = (ImageIcon)guiBoard[clickedX-2][clickedY-2].getIcon();
+                                    if (jumpUpLeft.getDescription().equals(darkCell.getDescription())) {
+                                        moveOne = new int[] {clickedX-2,clickedY-2};
                                     }
-                                
-                                } else if (downLeft.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
-                                    moveThree = new int[] {clickedX-1,clickedY+1};
-                                }
+                                }                            
+                            } else if (upLeft.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
+                                moveOne = new int[] {clickedX-1,clickedY-1};
                             }
-                        
-                            // Prevents comparison of non-existant array elements.
-                            if (clickedX < 7) {
-                                // Checks the icons of the two squares diagonally down and right and determines if a movement or a jump is possible.
-                                ImageIcon downRight = (ImageIcon)guiBoard[clickedX+1][clickedY+1].getIcon();
-                                if (downRight.getDescription().equals(redPiece.getDescription()) 
-                                        || downRight.getDescription().equals(redKing.getDescription())) {
-                                    // Prevents comparison of non-existant array elements.
-                                    if (clickedX < 6 && clickedY < 6) {
-                                        ImageIcon jumpDownRight = (ImageIcon)guiBoard[clickedX+2][clickedY+2].getIcon();
-                                        if (jumpDownRight.getDescription().equals(darkCell.getDescription())) {
-                                            moveFour = new int[] {clickedX+2,clickedY+2};
-                                        }
-                                    }                                
-                                } else if (downRight.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
-                                    moveFour = new int[] {clickedX+1,clickedY+1};
-                                }
-                            }
-                        
                         }
 
-                        if(!Arrays.equals(moveAttempt,moveOne) && !Arrays.equals(moveAttempt,moveTwo) 
-                                && !Arrays.equals(moveAttempt,moveThree) && !Arrays.equals(moveAttempt,moveFour)){
-                        
-                            validMoveLabel.setText("Invalid move!"); 
-                        
-                            System.out.println("Cannot move piece to this location!");
-                        }
-                        //Moves piece if everything is chosen correctly
-                        else{
-                            // Changes piece to king if far side is reached.   
-                            if (y == 0){
-                                gamePiece.setIcon(blackKing);
-                                isKing = true;
-                            }
-                            gamePiece.setBorder(null);
-                            movePiece(clickedX,clickedY,x,y);
-                            game.firstMove = false;
-                            System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
-                            if (Math.abs(clickedX - x) == 2){
-                                eliminate((clickedX + x)/2, (clickedY + y)/2);
-                                extraJumpPossible = secondSkip(isKing,x,y);
-                                System.out.println(extraJumpPossible);
-                                clickedX = x;
-                                clickedY = y;
-                            }
-                        
-                            if (!extraJumpPossible){
-                                //Resets everything for the next players turn
-                                game.nextTurn();
-                                game.isSelected = false;
-                                System.out.println("Now reds turn!");
-                                turnPhaseLabel.setText("Select a piece!");
-                                validMoveLabel.setText("");
+                        // Prevents comparison of non-existant array elements.
+                        if (clickedX < 7) {
+                            // Checks the icons of the two squares diagonally up and right and determines if a movement or a jump is possible.
+                            ImageIcon upRight = (ImageIcon)guiBoard[clickedX+1][clickedY-1].getIcon();
+                            if (upRight.getDescription().equals(redPiece.getDescription()) 
+                                    || upRight.getDescription().equals(redKing.getDescription())) {
+                                // Prevents comparison of non-existant array elements.
+                                if (clickedY > 1 && clickedX < 6) {
+                                    ImageIcon jumpUpRight = (ImageIcon)guiBoard[clickedX+2][clickedY-2].getIcon();
+                                    if (jumpUpRight.getDescription().equals(darkCell.getDescription())) {
+                                        moveTwo = new int[] {clickedX+2,clickedY-2};
+                                    }
+                                }  
+                            } else if (upRight.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
+                                moveTwo = new int[] {clickedX+1,clickedY-1};
                             }
                         }
-                    //}
-                }
+                    }
                     
+                        // Prevents comparison of non-existant array elements.
+                    if (clickedY < 7 && isKing) {
+                        // Prevents comparison of non-existant array elements.
+                        if (clickedX > 0) {
+                            // Checks the icons of the two squares diagonally down and left and determines if a movement or a jump is possible.
+                            ImageIcon downLeft = (ImageIcon)guiBoard[clickedX-1][clickedY+1].getIcon();
+                            if (downLeft.getDescription().equals(redPiece.getDescription()) 
+                                    || downLeft.getDescription().equals(redKing.getDescription())) {
+                                // Prevents comparison of non-existant array elements.
+                                if (clickedX > 1 && clickedY < 6 ) {
+                                    ImageIcon jumpDownLeft = (ImageIcon)guiBoard[clickedX-2][clickedY+2].getIcon();
+                                    if (jumpDownLeft.getDescription().equals(darkCell.getDescription())) {
+                                        moveThree = new int[] {clickedX-2,clickedY+2};
+                                    }
+                                }
+
+                            } else if (downLeft.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
+                                moveThree = new int[] {clickedX-1,clickedY+1};
+                            }
+                        }
+
+                        // Prevents comparison of non-existant array elements.
+                        if (clickedX < 7) {
+                            // Checks the icons of the two squares diagonally down and right and determines if a movement or a jump is possible.
+                            ImageIcon downRight = (ImageIcon)guiBoard[clickedX+1][clickedY+1].getIcon();
+                            if (downRight.getDescription().equals(redPiece.getDescription()) 
+                                    || downRight.getDescription().equals(redKing.getDescription())) {
+                                // Prevents comparison of non-existant array elements.
+                                if (clickedX < 6 && clickedY < 6) {
+                                    ImageIcon jumpDownRight = (ImageIcon)guiBoard[clickedX+2][clickedY+2].getIcon();
+                                    if (jumpDownRight.getDescription().equals(darkCell.getDescription())) {
+                                        moveFour = new int[] {clickedX+2,clickedY+2};
+                                    }
+                                }                                
+                            } else if (downRight.getDescription().equals(darkCell.getDescription()) && game.firstMove) {
+                                moveFour = new int[] {clickedX+1,clickedY+1};
+                            }
+                        }
+                    }
+
+                    if(!Arrays.equals(moveAttempt,moveOne) && !Arrays.equals(moveAttempt,moveTwo) 
+                            && !Arrays.equals(moveAttempt,moveThree) && !Arrays.equals(moveAttempt,moveFour)){
+
+                        validMoveLabel.setText("Invalid move!"); 
+
+                        System.out.println("Cannot move piece to this location!");
+                    }
+                    //Moves piece if everything is chosen correctly
+                    else{
+                        // Changes piece to king if far side is reached.   
+                        if (y == 0){
+                            gamePiece.setIcon(blackKing);
+                            isKing = true;
+                        }
+                        gamePiece.setBorder(null);
+                        movePiece(clickedX,clickedY,x,y);
+                        game.firstMove = false;
+                        System.out.println(clickedX + "," + clickedY + "-->" + x + " " + y);
+                        if (Math.abs(clickedX - x) == 2){
+                            eliminate((clickedX + x)/2, (clickedY + y)/2);
+                            extraJumpPossible = secondSkip(isKing,x,y);
+                            System.out.println(extraJumpPossible);
+                            clickedX = x;
+                            clickedY = y;
+                        }
+
+                        if (!extraJumpPossible){
+                            //Resets everything for the next players turn
+                            game.nextTurn();
+                            game.isSelected = false;
+                            System.out.println("Now reds turn!");
+                            turnPhaseLabel.setText("Select a piece!");
+                            validMoveLabel.setText("");
+                        }
+                    }
+                }
             }
         }
-        
         else{
             validMoveLabel.setText("Invalid move!");
             System.out.println("NO MOVEMENT OCCURED");
         }
-        
-        
-        
         //Updates label
         if(game.redTurn){
             turnLabel.setText("Your turn, red!");
@@ -535,18 +517,23 @@ public class GameBoard extends JFrame{
             turnLabel.setText("Black Wins!");
             endGame();
             System.out.println("increased black score");
-        } else if (blackPieceCount == 0){
+        }
+        else if (blackPieceCount == 0){
             game.redScore++;
             turnLabel.setText("Red Wins!");
             redScoreLabel.setText("Red: " + game.redScore + " wins");
             endGame();
             System.out.println("increased red score");
-        }
-
-        
+        }   
     }
     
-    
+    /**
+     * 
+     * @param isKing true if piece is a king
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return true if piece can perform second jump
+     */
     private boolean secondSkip(boolean isKing, int x, int y){
         
         JButton button = guiBoard[x][y];
@@ -596,41 +583,40 @@ public class GameBoard extends JFrame{
                     
             // Prevents comparison of non-existant array elements.
             if (y < 7) {
-                    // Prevents comparison of non-existant array elements.
-                    if (x > 0) {
-                        // Checks the icons of the two squares diagonally down and left and determines if a movement or a jump is possible.
-                        ImageIcon downLeft = (ImageIcon)guiBoard[x-1][y+1].getIcon();
-                        if (downLeft.getDescription().equals(blackPiece.getDescription()) 
-                                || downLeft.getDescription().equals(blackKing.getDescription())) {
-                            // Prevents comparison of non-existant array elements.
-                            if (x > 1 && y < 6 ) {
-                                ImageIcon jumpDownLeft = (ImageIcon)guiBoard[x-2][y+2].getIcon();
-                                if (jumpDownLeft.getDescription().equals(darkCell.getDescription())) {
-                                    moveThree = new int[] {x-2,y+2};
-                                    jumpPossible = true;
-                                }
-                            }    
-                        } 
-                    }
-                        
-                    // Prevents comparison of non-existant array elements.
-                    if (x < 7) {
-                        // Checks the icons of the two squares diagonally down and right and determines if a movement or a jump is possible.
-                        ImageIcon downRight = (ImageIcon)guiBoard[x+1][y+1].getIcon();
-                        if (downRight.getDescription().equals(blackPiece.getDescription()) 
-                                || downRight.getDescription().equals(blackKing.getDescription())) {
-                            // Prevents comparison of non-existant array elements.
-                            if (x < 6 && y < 6) {
-                                ImageIcon jumpDownRight = (ImageIcon)guiBoard[x+2][y+2].getIcon();
-                                if (jumpDownRight.getDescription().equals(darkCell.getDescription())) {
-                                    moveFour = new int[] {x+2,y+2};
-                                    jumpPossible = true;
-                                }
-                            }                                
-                        } 
-                    }
+                // Prevents comparison of non-existant array elements.
+                if (x > 0) {
+                    // Checks the icons of the two squares diagonally down and left and determines if a movement or a jump is possible.
+                    ImageIcon downLeft = (ImageIcon)guiBoard[x-1][y+1].getIcon();
+                    if (downLeft.getDescription().equals(blackPiece.getDescription()) 
+                            || downLeft.getDescription().equals(blackKing.getDescription())) {
+                        // Prevents comparison of non-existant array elements.
+                        if (x > 1 && y < 6 ) {
+                            ImageIcon jumpDownLeft = (ImageIcon)guiBoard[x-2][y+2].getIcon();
+                            if (jumpDownLeft.getDescription().equals(darkCell.getDescription())) {
+                                moveThree = new int[] {x-2,y+2};
+                                jumpPossible = true;
+                            }
+                        }    
+                    } 
                 }
-            
+                        
+                // Prevents comparison of non-existant array elements.
+                if (x < 7) {
+                    // Checks the icons of the two squares diagonally down and right and determines if a movement or a jump is possible.
+                    ImageIcon downRight = (ImageIcon)guiBoard[x+1][y+1].getIcon();
+                    if (downRight.getDescription().equals(blackPiece.getDescription()) 
+                            || downRight.getDescription().equals(blackKing.getDescription())) {
+                        // Prevents comparison of non-existant array elements.
+                        if (x < 6 && y < 6) {
+                            ImageIcon jumpDownRight = (ImageIcon)guiBoard[x+2][y+2].getIcon();
+                            if (jumpDownRight.getDescription().equals(darkCell.getDescription())) {
+                                moveFour = new int[] {x+2,y+2};
+                                jumpPossible = true;
+                            }
+                        }                                
+                    } 
+                }
+            } 
         }
         
         if (!game.redTurn){
@@ -667,8 +653,7 @@ public class GameBoard extends JFrame{
                             }
                         }  
                     }
-                }
-                        
+                }            
             }
                     
             // Prevents comparison of non-existant array elements.
@@ -686,8 +671,7 @@ public class GameBoard extends JFrame{
                                 moveThree = new int[] {x-2,y+2};
                                 jumpPossible = true;
                             }
-                        }
-                                
+                        }          
                     }
                 }
                         
@@ -715,7 +699,8 @@ public class GameBoard extends JFrame{
             button.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 4, false));
             return true;
         }
-        return false;
+        
+    return false;
     }
     
     /**
@@ -815,14 +800,10 @@ public class GameBoard extends JFrame{
     }
     
     /**
-     * Changes the image on the buttons at the two locations. 
-     * The current location gets changed to a blank piece, and the
-     * new location gets changed to the piece that was at the old location.
-     * Prints anything suspicious to the console.
-     * @param oldXCoord the x-coordinate of the old location (0..8)
-     * @param oldYCoord the y-coordinate of the old location (0..8)
-     * @param newYCoord the x-coordinate of the new location (0..8)
-     * @param newYCoord the y-coordinate of the new location (0..8)
+     * Checks to see if a move is possible
+     * @param x x coordinate 
+     * @param y y coordinate
+     * @return true if move is possible
      */
     private boolean validSelection(int x, int y){
         ImageIcon click = (ImageIcon)guiBoard[x][y].getIcon();
@@ -856,11 +837,14 @@ public class GameBoard extends JFrame{
     }
     
     /**
-     * 'Moves' the piece from location (oldXCoord, oldYCoord) to new location (newXCoord, newYCoord).
-     * @param oldXCoord
-     * @param oldYCoord
-     * @param newXCoord
-     * @param newYCoord 
+     * Changes the image on the buttons at the two locations. 
+     * The current location gets changed to a blank piece, and the
+     * new location gets changed to the piece that was at the old location.
+     * Prints anything suspicious to the console.
+     * @param oldXCoord the x-coordinate of the old location (0..8)
+     * @param oldYCoord the y-coordinate of the old location (0..8)
+     * @param newYCoord the x-coordinate of the new location (0..8)
+     * @param newYCoord the y-coordinate of the new location (0..8)
      */
     private void movePiece(int oldXCoord, int oldYCoord, int newXCoord, int newYCoord) {
         JButton oldButton = guiBoard[oldXCoord][oldYCoord];        
@@ -868,18 +852,19 @@ public class GameBoard extends JFrame{
         
         ImageIcon oldLocation = (ImageIcon)oldButton.getIcon();
         ImageIcon newLocation = (ImageIcon)newButton.getIcon();
-       // ImageIcon blankImage = new ImageIcon("src/darkCell.png");
         
         // Prints messages for cases that shouldn't happen
         if ((oldXCoord + oldYCoord) % 2 == 1) {
             System.out.println("The old location is a light cell.");
-        } else if (oldLocation.getDescription().equals(lightCell.getDescription())) {
+        } 
+        else if (oldLocation.getDescription().equals(lightCell.getDescription())) {
             System.out.println("The old location is blank.");
         }
         if ((newXCoord + newYCoord) % 2 == 1) {
             System.out.println("The new location is a light cell.");
             validMoveLabel.setText("Invalid move!");
-        } else if (!newLocation.getDescription().equals(lightCell.getDescription())) {
+        }
+        else if (!newLocation.getDescription().equals(lightCell.getDescription())) {
             System.out.println("The new location is not blank.");
         } 
         
