@@ -12,9 +12,10 @@ package checkersgame;
 public class CheckersGame {
     
     public boolean redTurn = false;
+    public boolean firstMove = true;
     public static int blackScore = 0;
     public static int redScore = 0;
-    public int turnStage = 1;
+    public boolean isSelected = false;
     public static int blackPieceCount = 12;
     public static int redPieceCount = 12;
     public int xChoice;
@@ -34,10 +35,10 @@ public class CheckersGame {
      *Resets the game - dont think this is needed anymore...
      */
     public void reset(){
-        turnStage = 1;
-        blackPieceCount = 8;
-        redPieceCount = 8;
-        redTurn = true;
+        isSelected = false;
+        blackPieceCount = 12;
+        redPieceCount = 12;
+        redTurn = false;
     }
 
     /**
@@ -57,8 +58,8 @@ public class CheckersGame {
      * @param stage 
      */
     public void nextStage(String stage){
-        if (turnStage < 2 && turnStage > 0){
-            turnStage++;
+        if (isSelected == false){
+            isSelected = true;
             System.out.println("Next turn stage");
         }
         else{
@@ -73,8 +74,8 @@ public class CheckersGame {
      */
     public void previousStage(String stage){
 
-        if(turnStage > 1 && turnStage < 3){
-            turnStage--;
+        if(isSelected == true){
+            isSelected = false;
             System.out.println("Previous turn stage");
         }
         else{
