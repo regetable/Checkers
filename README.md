@@ -1,2 +1,2 @@
-# Checkers
-Checkers with standard classic rules
+# Retro Checkers
+Checkers with classic rules
