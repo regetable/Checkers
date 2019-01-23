@@ -731,6 +731,9 @@ public class GameBoard extends JFrame{
         turnLabel.setText("Your turn, black!");
         turnPhaseLabel.setText("Select a piece!");
         resetBoard();
+        game.redPieceCount = 12;
+        game.blackPieceCount = 12;
+        game.redTurn = false;
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j < 8; j++) {
                 guiBoard[i][j].setEnabled(true);
@@ -768,6 +771,8 @@ public class GameBoard extends JFrame{
                 guiBoard[i][j].setEnabled(false);
             }     
         }
+        blackScoreLabel.setText("Black: " + game.blackScore + " wins");
+        redScoreLabel.setText("Red: " + game.redScore + " wins");
         giveUpButton.setEnabled(false);
         playButton.setEnabled(true);
         turnPhaseLabel.setText("");
